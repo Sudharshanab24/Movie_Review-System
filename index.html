@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            padding: 1rem;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .col-4 {
+            flex: 1;
+            max-width: 33.3333%;
+            box-sizing: border-box;
+            padding: 1rem;
+        }
+        .movie-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .movie-card img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .movie-card h2 {
+            font-size: 1.25rem;
+            margin: 0.5rem 0;
+        }
+        .movie-card p {
+            font-size: 0.875rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>Movie App</h1>
+    </div>
+
+    <div class="container">
+        <div class="row" id="movies">
+            <!-- Movie cards will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to create a movie card
+        function MovieCard(movie) {
+            const movieCard = document.createElement('div');
+            movieCard.classList.add('col-4');
+            movieCard.innerHTML = `
+                <div class="movie-card">
+                    <img src="https://image.tmdb.org/t/p/original/${movie.poster_path}" alt="${movie.title}">
+                    <h2>${movie.title}</h2>
+                    <p>${movie.overview.substring(0, 150)}</p>
+                </div>
+            `;
+            return movieCard;
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                console.log('Fetching movies...');
+                const response = await fetch('http://127.0.0.1:5000/movies');
+                console.log('Response status:', response.status);
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log('Fetched data:', JSON.stringify(data, null, 2));
+
+                // Check if data contains the 'results' property
+                if (!data.results || !Array.isArray(data.results)) {
+                    console.error('Unexpected data format:', JSON.stringify(data, null, 2));
+                    throw new Error('Movies data is not in the expected format');
+                }
+
+                const movies = data.results;
+                const movieContainer = document.getElementById('movies');
+                console.log('Appending movies...');
+                movies.forEach(movie => {
+                    console.log('Appending movie:', movie.title);
+                    const movieCard = MovieCard(movie);
+                    movieContainer.appendChild(movieCard);
+                });
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>

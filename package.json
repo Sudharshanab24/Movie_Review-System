@@ -1,0 +1,14 @@
+{
+  "name": "my-movie-app",
+  "version": "1.0.0",
+  "description": "A movie app with Flask backend and HTML frontend",
+  "scripts": {
+    "start": "concurrently \"npm run serve\" \"npm run backend\"",
+    "serve": "http-server frontend -p 8000",
+    "backend": "cd backend && flask run"
+  },
+  "dependencies": {
+    "concurrently": "^6.2.1",
+    "http-server": "^0.12.3"
+  }
+}

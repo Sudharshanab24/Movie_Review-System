@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie App</title>
+    <title>Movie Review System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #000000;
         }
         .navbar {
-            background-color: #333;
+            background-color: #000000;
             color: white;
             padding: 1rem;
             text-align: center;
@@ -20,23 +21,19 @@
             padding: 1rem;
         }
         .row {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .col-4 {
-            flex: 1;
-            max-width: 33.3333%;
-            box-sizing: border-box;
-            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
         .movie-card {
-            border: 1px solid #ddd;
+            border: 1px solid ;
             border-radius: 5px;
             padding: 1rem;
             text-align: center;
+            transition: transform 0.2s, box-shadow 0.3s; /* Reduced transition duration */
         }
         .movie-card img {
-            max-width: 100%;
+            max-width: 50%;
             border-radius: 5px;
         }
         .movie-card h2 {
@@ -47,12 +44,16 @@
             font-size: 0.875rem;
             color: #555;
         }
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 8px rgba(255, 247, 247, 0.2), 0 0 5px rgba(255, 247, 247, 0.2);
+        }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <h1>Movie App</h1>
+        <h1>Movie Review System</h1>
     </div>
 
     <div class="container">
@@ -65,13 +66,11 @@
         // Function to create a movie card
         function MovieCard(movie) {
             const movieCard = document.createElement('div');
-            movieCard.classList.add('col-4');
+            movieCard.classList.add('movie-card');
             movieCard.innerHTML = `
-                <div class="movie-card">
-                    <img src="https://image.tmdb.org/t/p/original/${movie.poster_path}" alt="${movie.title}">
-                    <h2>${movie.title}</h2>
-                    <p>${movie.overview.substring(0, 150)}</p>
-                </div>
+                <img src="https://image.tmdb.org/t/p/original/${movie.poster_path}" alt="${movie.title}">
+                <h2 style="color:white;">${movie.title}</h2>
+                <p style="color:white;">${movie.overview.substring(0, 150)}</p>
             `;
             return movieCard;
         }

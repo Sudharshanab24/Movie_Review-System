@@ -10,7 +10,7 @@ API_KEY = 'aff383143383395d19546ba1df0e1e07'  # Replace this with your new API k
 @app.route('/movies')
 def get_movies():
     try:
-        response = requests.get(f'https://api.themoviedb.org/3/search/movie?api_key=aff383143383395d19546ba1df0e1e07&query=3')
+        response = requests.get(f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}')
         data = response.json()
         print('Fetched data from TMDB:', data)  # Log the fetched data
         return jsonify(data)
